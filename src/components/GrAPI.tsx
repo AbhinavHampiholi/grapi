@@ -9,6 +9,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 import RequestEditor from './RequestEditor';
 import ResponseViewer from './ResponseViewer';
+import SaveRequestModal from './SaveRequestModal';
 
 const GrAPI = () => {
   const [selectedRequest, setSelectedRequest] = useState<string>(Object.keys(defaultRequests)[0]);
@@ -21,6 +22,7 @@ const GrAPI = () => {
   const [copied, setCopied] = useState(false);
   const [response, setResponse] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('savedRequests');
@@ -53,12 +55,9 @@ const GrAPI = () => {
     setResponse('');
   };
 
-  const handleSaveRequest = () => {
+  const handleSaveRequest = (name: string) => {
     try {
       const request = JSON.parse(requestContent);
-      const name = prompt('Enter a name for this request:');
-      if (!name) return;
-
       const newSavedRequest: SavedRequest = {
         ...request,
         name,
@@ -105,15 +104,21 @@ const GrAPI = () => {
           setViewMode={setViewMode}
           requestContent={requestContent}
           setRequestContent={setRequestContent}
-          onSave={handleSaveRequest}
-          onCopy={handleCopy}
+          onSave={() => setIsSaveModalOpen(true)}
           onSend={handleSend}
           copied={copied}
+          setCopied={setCopied}
           loading={loading}
         />
 
         <ResponseViewer response={response} />
       </div>
+
+      <SaveRequestModal
+        isOpen={isSaveModalOpen}
+        onClose={() => setIsSaveModalOpen(false)}
+        onSave={handleSaveRequest}
+      />
     </div>
   );
 };

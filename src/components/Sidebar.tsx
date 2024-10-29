@@ -68,7 +68,7 @@ const Sidebar = ({
                 className={`w-full text-left p-2 rounded ${
                   selectedRequest === key 
                     ? 'bg-purple-100 text-purple-900 font-medium' 
-                    : 'text-gray-700 hover:bg-gray-100'
+                    : 'text-gray-700 hover:bg-purple-50'
                 }`}
               >
                 {key}
@@ -83,17 +83,17 @@ const Sidebar = ({
             {savedRequests.map((request) => (
               <div
                 key={request.timestamp}
-                className="flex items-center justify-between p-2 hover:bg-gray-50 rounded group"
+                className="flex items-center justify-between p-2 rounded hover:bg-purple-50 group transition-colors"
               >
                 <button
                   onClick={() => onLoadSaved(request)}
-                  className="flex-1 text-left text-gray-700"
+                  className="flex-1 text-left text-gray-700 group-hover:text-purple-900"
                 >
                   {request.name}
                 </button>
                 <button
                   onClick={() => onDeleteSaved(request.timestamp)}
-                  className="p-1 text-gray-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="p-1 text-gray-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all"
                   title="Delete request"
                 >
                   <Trash2 size={16} />
